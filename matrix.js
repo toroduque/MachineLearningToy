@@ -12,6 +12,27 @@ class Matrix {
         }
     }
 
+    static fromArray(array) {
+      let m = new Matrix(array.length, 1)
+
+      for (let i = 0; i < array.length; i++) {
+        m.data[i][0] = array[i]
+      }
+      return m;
+    }
+
+    toArray(matrix) {
+      let arr = []
+
+      for (let i = 0; i < this.rows; i++) {
+          for (let j = 0; j < this.cols; j++ ) {
+              arr.push(this.data[i][j])
+          }
+      }
+
+      return arr
+    }
+
     add(n) {
         if(n instanceof Matrix) {
             for (let i = 0; i < this.rows; i++) {
@@ -84,7 +105,7 @@ class Matrix {
         for (let i = 0; i < this.rows; i++) {
             this.data[i] = []
             for (let j = 0; j < this.cols; j++ ) {
-                this.data[i][j] = Math.floor(Math.random() * 10);
+                this.data[i][j] = Math.random() * 2 - 1;
             }
         }
     }

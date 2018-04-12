@@ -1,18 +1,7 @@
-let brain;
-
 function setup(){
-    let a = new Matrix(2,3)
-    a.randomize();
-    a.print()
-
-    function doubleIt(x) {
-        return x * 2
-    }
-
-    a.map(doubleIt)
-    a.print()
-}
-
-function draw(){
+    const nn = new NeuralNetwork(2, 2, 1)
+    const input = [1, 0]
+    const output = nn.feedForward(input)
+    console.log(output);
 
 }
