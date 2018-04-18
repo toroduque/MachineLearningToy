@@ -49,21 +49,33 @@ class Matrix {
         }
     }
 
-    transponse() {
-        let result = new Matrix(this.cols, this.rows);
+    static transpose(matrix) {
+        let result = new Matrix(matrix.cols, matrix.rows);
 
-        for (let i = 0; i < this.rows; i++) {
-            for (let j = 0; j < this.cols; j++ ) {
-                result.data[j][i] = this.data[i][j];
+        for (let i = 0; i < matrix.rows; i++) {
+            for (let j = 0; j < matrix.cols; j++ ) {
+                result.data[j][i] = matrix.data[i][j];
             }
         }
         return result
     }
 
+    static substract(a, b) {
+      // Return a new Matrix a-b
+      let results = new Matrix(a.rows, a.cols)
+
+      for (let i = 0; i < results.rows; i++) {
+          for (let j = 0; j < results.cols; j++ ) {
+              results.data[i][j] = a.data[i][j] - b.data[i][j];
+          }
+      }
+      return results
+    }
+
     static multiply(a, b) {
         // Matrix product
         if(a.cols != b.rows) {
-            console.log('Columns of A must match rows of rows of B');
+            console.log('Columns of A must match number of rows of rows of B');
             return undefined;
         }
 
@@ -83,11 +95,20 @@ class Matrix {
     }
 
     multiply(n) {
-        // Scalar product
-        for (let i = 0; i < this.rows; i++) {
-            for (let j = 0; j < this.cols; j++ ) {
-                this.data[i][j] *= n;
+        if(n instanceof Matrix) {
+          // hadamard product
+          for (let i = 0; i < this.rows; i++){
+            for (let j = 0; j < this.cols; j++){
+              this.data[i][j] *= n.data[i][j]
             }
+          }
+        } else {
+          // Scalar product
+          for (let i = 0; i < this.rows; i++) {
+              for (let j = 0; j < this.cols; j++ ) {
+                  this.data[i][j] *= n;
+              }
+           }
         }
     }
 
@@ -99,6 +120,19 @@ class Matrix {
                 this.data[i][j] = func(val);
             }
         }
+    }
+
+    static map(matrix, func) {
+      let results = new Matrix(matrix.rows, matrix.cols);
+      // Apply a function to every element of Matrix
+      for (let i = 0; i < matrix.rows; i++) {
+          for (let j = 0; j < matrix.cols; j++ ) {
+              let val = matrix.data[i][j]
+              results.data[i][j] = func(val);
+          }
+      }
+
+      return results
     }
 
     randomize() {
